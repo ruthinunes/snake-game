@@ -37,13 +37,13 @@ function createFood() {
 
 function drawSnake() {
     snake.forEach(function (segment) {
-        context.fillStyle = 'white';
+        context.fillStyle = '#d0e392';
         context.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
     });
 };
 
 function drawFood() {
-    context.fillStyle = "red";
+    context.fillStyle = "#f6c8c4";
     context.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
 };
 
