@@ -95,13 +95,13 @@ function gameLoop() {
 
 function checkCollision() {
     if (snake[0].x < 0 || snake[0].x >= canvasElement.width / gridSize || snake[0].y < 0 || snake[0].y >= canvasElement.height / gridSize) {
-        clearInterval();
+        clearInterval(gameLoopInterval);
         alert(`Game over! You scored ${score} points.`);
     };
 
     for (let i = 1; i < snake.length; i++) {
         if (snake[0].x === snake[i].x && snake[0].y === snake[i].y) {
-            clearInterval();
+            clearInterval(gameLoopInterval);
             alert(`Game over! You scored ${score} points.`);
         };
     };
