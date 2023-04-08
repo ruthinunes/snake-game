@@ -111,8 +111,21 @@ function pauseGame() {
     clearInterval(gameLoopInterval);
 };
 
+function resetGame() {
+    snake = [];
+    food = {};
+    score = 0;
+    direction = '';
+    gameLoopInterval = '';
+
+    clearCanvas();
+    createSnake();
+    createFood();
+};
+
 document.querySelector('#play').addEventListener('click', startGame);
 document.querySelector('#pause').addEventListener('click', pauseGame);
+document.querySelector('#reset').addEventListener('click', resetGame);
 
 window.addEventListener('DOMContentLoaded', function () {
     createSnake();
