@@ -17,6 +17,7 @@ let isRunningGame = false;
 
 function startGame() {
     if (!isRunningGame) {
+        score = 0;
         direction = "right";
     };
 
@@ -139,7 +140,7 @@ function resetGame() {
     food = {};
     direction = '';
     gameLoopInterval = 0;
-    score = 0;
+    scoreElement.innerHTML = 0;
     isRunningGame = false;
     messageElement.style.opacity = '0';
     playButton.classList.remove('inactive');
