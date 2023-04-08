@@ -1,5 +1,10 @@
 const canvasElement = document.querySelector("#game-board");
 const context = canvasElement.getContext("2d");
+const scoreElement = document.querySelector('#score');
+const messageElement = document.querySelector('.message');
+const playButton = document.querySelector('#play');
+const pauseButton = document.querySelector('#pause');
+const resetButton = document.querySelector('#reset');
 const snakeSize = 5;
 const gridSize = 6;
 
@@ -7,13 +12,16 @@ let snake = [];
 let food = {};
 let score = 0;
 let direction = '';
-let gameLoopInterval = '';
+let gameLoopInterval = 0;
 
 function startGame() {
 
     direction = "right";
     document.addEventListener("keydown", changeDirection);
     gameLoopInterval = setInterval(gameLoop, 1000 / 10);
+    resetButton.classList.add('inactive');
+    pauseButton.classList.remove('inactive');
+    playButton.classList.add('inactive');
     gameLoop();
 };
 
@@ -83,6 +91,7 @@ function moveSnake() {
     } else {
         snake.pop();
     }
+    scoreElement.innerHTML = score;
 };
 
 function gameLoop() {
@@ -95,39 +104,58 @@ function gameLoop() {
 
 function checkCollision() {
     if (snake[0].x < 0 || snake[0].x >= canvasElement.width / gridSize || snake[0].y < 0 || snake[0].y >= canvasElement.height / gridSize) {
-        clearInterval(gameLoopInterval);
-        alert(`Game over! You scored ${score} points.`);
+        gameOver();
     };
 
     for (let i = 1; i < snake.length; i++) {
         if (snake[0].x === snake[i].x && snake[0].y === snake[i].y) {
-            clearInterval(gameLoopInterval);
-            alert(`Game over! You scored ${score} points.`);
+            gameOver();
         };
     };
 };
 
 function pauseGame() {
+    pauseButton.classList.add('inactive');
+    resetButton.classList.remove('inactive');
+    playButton.classList.remove('inactive');
     clearInterval(gameLoopInterval);
 };
+
+function gameOver() {
+    messageElement.style.opacity = '1';
+    playButton.classList.add('inactive');
+    pauseButton.classList.add('inactive');
+    resetButton.classList.remove('inactive');
+    clearInterval(gameLoopInterval);
+}
 
 function resetGame() {
     snake = [];
     food = {};
-    score = 0;
     direction = '';
     gameLoopInterval = '';
+    scoreElement.innerHTML = 0;
+    messageElement.style.opacity = '0';
+    playButton.classList.remove('inactive');
+    pauseButton.classList.remove('inactive');
+    resetButton.classList.add('inactive');
+    playButton.addEventListener('click', startGame);
+    pauseButton.addEventListener('click', pauseGame);
 
     clearCanvas();
     createSnake();
     createFood();
+    drawSnake();
+    drawFood();
 };
 
-document.querySelector('#play').addEventListener('click', startGame);
-document.querySelector('#pause').addEventListener('click', pauseGame);
-document.querySelector('#reset').addEventListener('click', resetGame);
+playButton.addEventListener('click', startGame);
+pauseButton.addEventListener('click', pauseGame);
+resetButton.addEventListener('click', resetGame);
 
 window.addEventListener('DOMContentLoaded', function () {
+    scoreElement.innerHTML = score;
+    resetButton.classList.add('inactive');
     createSnake();
     createFood();
     drawSnake();
