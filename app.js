@@ -13,10 +13,13 @@ let food = {};
 let score = 0;
 let direction = '';
 let gameLoopInterval = 0;
+let isRunningGame = false;
 
 function startGame() {
+    if (!isRunningGame) {
+        direction = "right";
+    };
 
-    direction = "right";
     document.addEventListener("keydown", changeDirection);
     gameLoopInterval = setInterval(gameLoop, 1000 / 10);
     resetButton.classList.add('inactive');
@@ -103,6 +106,7 @@ function gameLoop() {
 };
 
 function checkCollision() {
+
     if (snake[0].x < 0 || snake[0].x >= canvasElement.width / gridSize || snake[0].y < 0 || snake[0].y >= canvasElement.height / gridSize) {
         gameOver();
     };
@@ -115,6 +119,7 @@ function checkCollision() {
 };
 
 function pauseGame() {
+    isRunningGame = true;
     pauseButton.classList.add('inactive');
     resetButton.classList.remove('inactive');
     playButton.classList.remove('inactive');
@@ -133,8 +138,9 @@ function resetGame() {
     snake = [];
     food = {};
     direction = '';
-    gameLoopInterval = '';
-    scoreElement.innerHTML = 0;
+    gameLoopInterval = 0;
+    score = 0;
+    isRunningGame = false;
     messageElement.style.opacity = '0';
     playButton.classList.remove('inactive');
     pauseButton.classList.remove('inactive');
